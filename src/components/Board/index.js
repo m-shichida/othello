@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Square from '../Square'
 import styles from './styles'
 
-const { Status, BoardRow } = styles
+const { Turn, BoardRow, Piece } = styles
 
 const BLANK_PIECE = 0
 const BLACK_PIECE = 1
@@ -32,7 +32,9 @@ defaultBoard[4][4] = BLACK_PIECE
 const Board = () => {
   const [squares, setSquares] = useState(defaultBoard)
   const [currentPiece, setCurrentPiece] = useState(BLACK_PIECE)
-  const status = 'Next player: ' + (currentPiece === BLACK_PIECE ? '黒の番' : '白の番');
+  const [blackCount, setBlackCount] = useState(0)
+  const [whiteCount, setWhiteCount] = useState(0)
+  const turn = 'Next player: ' + (currentPiece === BLACK_PIECE ? '黒の番' : '白の番');
 
   const boardInit = () => {
     if (!window.confirm('リセットしてもよろしいですか？')) {
@@ -65,8 +67,6 @@ const Board = () => {
     })
   }
 
-  // TODO: 全てコマが埋まった時の動き
-  // TODO: 置く箇所がないときに相手のターンにしたい
   const setTurnList = (x, y) => {
     let nextPiece = currentPiece === BLACK_PIECE ? WHITE_PIECE : BLACK_PIECE
     let turnList = []
@@ -99,6 +99,29 @@ const Board = () => {
     })
   }
 
+  useEffect(() => {
+    let black = 0
+    let white = 0
+
+    for (let i = 0; i < squares.length; i++) {
+      const line = squares[i];
+      for(let i = 0; i < line.length; i++) {
+        switch (line[i]) {
+          case BLACK_PIECE:
+            black++
+            setBlackCount(black)
+            break
+          case WHITE_PIECE:
+            white++
+            setWhiteCount(white)
+            break
+          default:
+            break
+        }
+      }
+    }
+  })
+
   const handleClick = (x, y) => {
     if (squares[y][x] === BLANK_PIECE) {
       setTurnList(x, y)
@@ -127,7 +150,9 @@ const Board = () => {
       >
         最初からやり直す
       </button>
-      <Status>{ status }</Status>
+      <Turn>{ turn }</Turn>
+      <Piece>●{ blackCount }</Piece>
+      <Piece>○{ whiteCount }</Piece>
       <BoardRow>
         { renderSquare(squares, 0) }
       </BoardRow>
