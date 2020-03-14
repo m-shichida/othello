@@ -4,20 +4,12 @@ import styles from './styles'
 
 const {
   Container,
-  BoardContainer,
-  GameInfo
 } = styles
 
 const Game = () => {
   return (
     <Container>
-      <BoardContainer>
-        <Board />
-      </BoardContainer>
-      <GameInfo>
-        <div>{/* status */}</div>
-        <ol>{/* TODO */}</ol>
-      </GameInfo>
+      <Board />
     </Container>
   );
 }

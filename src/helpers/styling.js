@@ -2,7 +2,8 @@ import { css } from 'styled-components';
 
 export const colors = {
   boardColor: '#319242',
-  black: '#000'
+  black: '#000',
+  puted: '#ddd'
 }
 
 export const media = {
