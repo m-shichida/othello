@@ -10,8 +10,8 @@ import {
   BLACK_PIECE,
   WHITE_PIECE,
   CHECKLIST,
-  boardInit
-} from '../../helpers/board'
+} from '../../constants/board'
+import { boardInit } from '../../helpers/board'
 
 const { Turn, BoardRow, Piece } = styles
 
@@ -29,8 +29,8 @@ const Board = () => {
       let y = squareIndex[1]
 
       square[y][x] = currentPiece
-      setSquares(square)
     })
+    return setSquares(square)
   }
 
   const setTurnList = (x, y) => {
@@ -65,7 +65,7 @@ const Board = () => {
     })
   }
 
-  const checkIsPut = () => {
+  const showIsPut = () => {
     for (let y = 0; y < isPut.length; y++) {
       for(let x = 0; x < isPut[y].length; x++) {
         const nextPiece = currentPiece === BLACK_PIECE ? WHITE_PIECE : BLACK_PIECE
@@ -104,7 +104,7 @@ const Board = () => {
   }
 
   useEffect(() => {
-    checkIsPut()
+    showIsPut()
     let black = 0
     let white = 0
 
@@ -134,9 +134,8 @@ const Board = () => {
   }
 
   const handleInit = () => {
-    setSquares(boardInit)
+    setSquares(boardInit())
     setCurrentPiece(BLACK_PIECE)
-    checkIsPut()
   }
 
   const renderSquare = (boardRow, y) => {
